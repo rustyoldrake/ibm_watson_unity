@@ -24,34 +24,16 @@ using IBM.Watson.DeveloperCloud.DataTypes;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-
 public class ExampleStreaming : MonoBehaviour
 {
-	private string _username = "d5935aa0-####-####-#####-########";
-	private string _password = "Y8O######qQL";
+	private string _username = "d8406233-74d3-####-9792-f#####";
+	private string _password = "zFP######";
 	private string _url = "https://stream.watsonplatform.net/speech-to-text/api";
-
+    
     public Text ResultsField;
+	public Text ResponseTextField_en;
 
-	// magic
-	//public GameObject sphere_rad;
-	public MeshRenderer sphereMeshRenderer;
-	public MeshRenderer cubeMeshRenderer;
-
-	public MeshRenderer bar1JoyRenderer;
-	public MeshRenderer bar2SadnessRenderer;
-	public MeshRenderer bar3FearRenderer;
-	public MeshRenderer bar4DisgustRenderer;
-	public MeshRenderer bar5AngerRenderer;
-
-
-	public Material original_material;
-	public Material red_material;
-	public Material blue_material;
-
-	public Material yellow_material;
-	public Material green_material;
-	public Material purple_material;
+	public LanguageTranslatorDemo LanguageTranslatorDemo;
 
     private int _recordingRoutine = 0;
     private string _microphoneID = null;
@@ -173,7 +155,7 @@ public class ExampleStreaming : MonoBehaviour
             }
             else
             {
-                // calculate the number of samples remaining until we ready for a block of audio,
+                // calculate the number of samples remaining until we ready for a block of audio, 
                 // and wait that amount of time it will take to record.
                 int remaining = bFirstBlock ? (midPoint - writePos) : (_recording.samples - writePos);
                 float timeRemaining = (float)remaining / (float)_recordingHZ;
@@ -196,54 +178,15 @@ public class ExampleStreaming : MonoBehaviour
                 {
                     string text = string.Format("{0} ({1}, {2:0.00})\n", alt.transcript, res.final ? "Final" : "Interim", alt.confidence);
                     Log.Debug("ExampleStreaming.OnRecognize()", text);
-                    ResultsField.text = text;
-
-					// Magic happens here (Hello World Magic!)
-					// FOR NOW HARD WIRING THE EXPLICIT UTTERANCES TO COLOR STATE CHANGES
-					// LATER WILL USE LOOKUPS; THRESHOLDES; AND STATEHOLDERS
-					if (alt.transcript.Contains("red")) {
-						sphereMeshRenderer.material = red_material;
-					}
-					if (alt.transcript.Contains("blue")) {
-						sphereMeshRenderer.material = blue_material;
-					}
-					if (alt.transcript.Contains("green")) {
-						cubeMeshRenderer.material = green_material;
-					}
-					if (alt.transcript.Contains("yellow")) {
-						cubeMeshRenderer.material = yellow_material;
-					}
-
-					//  Here is the Emotional Zone - GREP For now
-					if (alt.transcript.Contains("happy") | alt.transcript.Contains("joy")) {
-						bar1JoyRenderer.material = yellow_material;
-					}
-					if (alt.transcript.Contains("sad") | alt.transcript.Contains("depressed")) {
-						bar2SadnessRenderer.material = blue_material;
-					}
-					if (alt.transcript.Contains("scared") | alt.transcript.Contains("fear")) {
-						bar3FearRenderer.material = purple_material;
-					}
-					if (alt.transcript.Contains("yucky") | alt.transcript.Contains("gross")) {
-						bar4DisgustRenderer.material = green_material;
-					}
-					if (alt.transcript.Contains("mad") | alt.transcript.Contains("angry")) {
-						bar5AngerRenderer.material = red_material;
-					}
-					// LATER we will wire in WATSON TONE analyzer and personality insights
-
-
-					//					public MeshRenderer bar1JoyRenderer;
-					//					public MeshRenderer bar2SadnessRenderer;
-					//					public MeshRenderer bar3FearRenderer;
-					//					public MeshRenderer bar4DisgustRenderer;
-					//					public MeshRenderer bar5AngerRenderer;
-
-
-
-
-
-
+//  				ResultsField.text = text;
+					ResponseTextField_en.text = text;
+					LanguageTranslatorDemo.Translate_es(alt.transcript);
+					LanguageTranslatorDemo.Translate_fr(alt.transcript);
+					LanguageTranslatorDemo.Translate_it(alt.transcript);
+					LanguageTranslatorDemo.Translate_de(alt.transcript);
+					LanguageTranslatorDemo.Translate_pt(alt.transcript);
+					LanguageTranslatorDemo.Translate_ar(alt.transcript);
+					LanguageTranslatorDemo.Translate_ja(alt.transcript);
 
                 }
 
